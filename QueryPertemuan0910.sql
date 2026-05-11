@@ -115,6 +115,56 @@ VALUES
 	('kurokidaizaya@gmail.com', 'Kuroki Daizaya', 'Jakarta', '083831489934'),
 	('shirotaenozomi@gmail.com', 'Shirotae Nozomi', 'Kolam', '085206124895');
 
+-- Menambahkan 3 Data ke Tabel Penjual
+INSERT INTO penjual (email, nama)
+VALUES 
+    ('sari@toko.com', 'Sari Jaya'),
+    ('eko@elektronik.com', 'Eko Computer'),
+    ('ani@gadget.com', 'Ani Cell');
+
+-- Menambahkan 3 Data ke Tabel Barang
+INSERT INTO barang (sku, nama_barang, harga, stok, email_penjual)
+VALUES 
+    ('M001', 'Mouse Logitech', 150000, 50, 'sari@toko.com'),
+    ('KB02', 'Keyboard Mechanical', 450000, 20, 'eko@elektronik.com'),
+    ('HP05', 'Smartphone Samsung', 3200000, 15, 'ani@gadget.com');
+
+-- Menambahkan 3 Data ke Tabel Pembelian (Menggunakan email pembeli yang sudah ada di input Anda)
+INSERT INTO pembelian (email_pembeli, sku_barang, jumlah)
+VALUES 
+    ('andikaalakate@gmail.com', 'M001', 2),
+    ('kurokidaizaya@gmail.com', 'HP05', 1),
+    ('shirotaenozomi@gmail.com', 'KB02', 1);
+
+SELECT 
+    p.nama AS nama_penjual, 
+    b.nama_barang, 
+    b.harga, 
+    b.stok
+FROM penjual p
+INNER JOIN barang b ON p.email = b.email_penjual;
+
+SELECT 
+    pb.id_transaksi, 
+    pm.nama AS nama_pembeli, 
+    br.nama_barang, 
+    pb.jumlah, 
+    br.harga,
+    (pb.jumlah * br.harga) AS total_bayar
+FROM pembelian pb
+INNER JOIN pembeli pm ON pb.email_pembeli = pm.email
+INNER JOIN barang br ON pb.sku_barang = br.sku;
+
+SELECT 
+    pembelian.id_transaksi,
+    pembeli.nama,
+    pembeli.alamat,
+    barang.nama_barang
+FROM pembelian
+INNER JOIN pembeli ON pembelian.email_pembeli = pembeli.email
+INNER JOIN barang ON pembelian.sku_barang = barang.sku
+WHERE barang.nama_barang = 'Laptop Asus';
+
 CREATE TABLE dompet (
 	id_dompet INT PRIMARY KEY IDENTITY(1,1),
 	no_rekening VARCHAR(20),
