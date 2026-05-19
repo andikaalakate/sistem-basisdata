@@ -17,7 +17,7 @@ CREATE TABLE barang (
 	harga_awal INT,
 	stok INT,
 	email_penjual VARCHAR(100),
-
+	
 	FOREIGN KEY (email_penjual) REFERENCES penjual(email)
 );
 
